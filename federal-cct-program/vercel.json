@@ -7,15 +7,11 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/backend/index.js",
-      "methods": ["GET", "POST", "OPTIONS"]
+      "dest": "/backend/index.js"
     },
     {
-      "src": "/(.*)",
+      "src": "/(.*)", 
       "dest": "/frontend/index.html"
     }
-  ],
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "/backend/index.js" }
   ]
 }
