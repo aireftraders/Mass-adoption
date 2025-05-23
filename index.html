@@ -1156,7 +1156,7 @@
                 ussdPayment: "Isanwo USSD",
                 ussdPaymentDesc: "Isanwo kiakia nipasẹ Paystack USSD",
                 proceedPayment: "LỌ SI ISANWO",
-                successTitle: "Ibere Ti A Gba Ni Aṣeyọri!",
+                successTitle: "Ibere Ti A Gba Ni Aṣeyri!",
                 successText1: "A ti gba ibere rẹ ati pe a nṣe iṣẹ lori rẹ.",
                 awardText: "A ti fun ọ ni:",
                 successText2: "A o gbe owó naa si akọọlẹ rẹ laarin ọjọ iṣẹ 31-45.",
@@ -1215,12 +1215,12 @@
                 stateLabel: "Jiha ta Asali",
                 selectState: "Zaɓi Jiha ta Asali",
                 lgaLabel: "Yankin Karamar Hukuma (LGA)",
-                ninLabel: "Lambar Shaidar Ɗan Adam ta Ƙasa (NIN)",
+                ninLabel: "Nambar Shaidar Ɗan Adam ta Ƙasa (NIN)",
                 motherLabel: "Sunan Yarinya Mahaifiyarka",
                 idTypeLabel: "Shaidar Gwamnati",
                 selectIdType: "Zaɓi Nau'in Shaidar",
                 idNIN: "Katin Shaidar Ɗan Adam",
-                idVoter: "Katin Za�ɓe na Dindindin",
+                idVoter: "Katin Zaɓe na Dindindin",
                 idDriver: "Lasisin Direba",
                 idPassport: "Fasfo na Ƙasashen Waje",
                 idNumberLabel: "Lambar Shaidar",
@@ -1246,7 +1246,7 @@
                 feeBenefit2: "Kula da tsarinmu na sarrafa aikace-aikace",
                 feeBenefit3: "Ba da tallafi na musamman a duk lokacin amincewa",
                 feeBenefit4: "Tabbatar cewa aikace-aikacenku yana samun kulawa ta farko daga sassan gwamnati masu dacewa",
-                feeNoticeText2: "Wannan kuɗi wajibi ne ga duk masu nema kuma za a tara shi bayan aika fom.",
+                feeNoticeText2: "Kuɗin nan wajibi ne ga duk masu nema kuma za a tara shi bayan aika fom.",
                 bankTransfer: "Canja Kuɗi Banki",
                 bankTransferDesc: "Gbe owó taara nipasẹ Paystack",
                 cardPayment: "Kaadi Ọrọwọ",
@@ -1254,7 +1254,7 @@
                 ussdPayment: "Isanwo USSD",
                 ussdPaymentDesc: "Isanwo kiakia nipasẹ Paystack USSD",
                 proceedPayment: "LỌ SI ISANWO",
-                successTitle: "Ibere Ti A Gba Ni Aṣeyọri!",
+                successTitle: "Ibere Ti A Gba Ni Aṣeyri!",
                 successText1: "A ti gba ibere rẹ ati pe a nṣe iṣẹ lori rẹ.",
                 awardText: "A ti fun ọ ni:",
                 successText2: "A o gbe owó naa si akọọlẹ rẹ laarin ọjọ iṣẹ 31-45.",
@@ -1622,6 +1622,46 @@
             document.getElementById('chatModal').style.display = 'none';
             showUpgradeModal();
         }
+
+        function paystackUpgrade(amount, email, callback) {
+            // Replace with your Paystack public key
+            const paystackPublicKey = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx';
+            const handler = PaystackPop.setup({
+                key: paystackPublicKey,
+                email: email || 'user@example.com',
+                amount: amount * 100, // Paystack expects amount in kobo
+                currency: 'NGN',
+                ref: 'UPG-' + Math.floor((Math.random() * 1000000000) + 1),
+                callback: function(response) {
+                    // Payment successful
+                    if (typeof callback === 'function') callback(response);
+                },
+                onClose: function() {
+                    alert('Payment window closed.');
+                }
+            });
+            handler.openIframe();
+        }
+
+        document.getElementById('proceedUpgradeBtn').addEventListener('click', function() {
+            const selectedMethod = document.querySelector('input[name="upgradePaymentMethod"]:checked');
+            if (selectedMethod) {
+                // Optionally, collect user email from form if available
+                let email = '';
+                try {
+                    email = document.getElementById('email') ? document.getElementById('email').value : '';
+                } catch (e) {}
+                paystackUpgrade(1000, email, function(response) {
+                    document.getElementById('upgradeModal').style.display = 'none';
+                    alert("Your upgrade payment was successful! You are now eligible for ₦150,000 and expedited processing within 10-16 days.");
+                    document.getElementById('awardAmount').textContent = "₦150,000";
+                });
+            } else {
+                alert("Please select a payment method.");
+            }
+        });
     </script>
+    <!-- Paystack JS -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
 </body>
 </html>
