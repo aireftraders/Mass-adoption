@@ -67,10 +67,12 @@ app.post('/api/share', (req, res) => {
 });
 
 app.get('/api/share-status', (req, res) => {
-  const phone = req.query.phone;
-  if (!phone) return res.status(400).json({ error: 'Phone required' });
-
-  res.json(db.shares[phone] || { friends: 0, groups: 0 });
+  const { phone } = req.query;
+  res.json({
+    friends: 0,
+    groups: 0,
+    phone: phone || 'none'
+  });
 });
 
 app.post('/api/application', verifyWhatsAppShares, (req, res) => {
