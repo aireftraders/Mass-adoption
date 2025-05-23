@@ -501,6 +501,33 @@
         /* Upgrade Modal Styles */
         #upgradeModal .modal-content {
             max-width: 450px;
+            /* Add max-height and scroll for mobile usability */
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        /* Ensure the proceed button is always visible on small screens */
+        #upgradeModal .modal-content {
+            display: flex;
+            flex-direction: column;
+        }
+        #proceedUpgradeBtn {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            /* Stick to bottom if modal scrolls */
+            position: sticky;
+            bottom: 0;
+            z-index: 2;
+        }
+        @media (max-width: 600px) {
+            #upgradeModal .modal-content {
+                max-height: 98vh;
+                padding-bottom: 16px;
+            }
+            #proceedUpgradeBtn {
+                font-size: 18px;
+                padding: 16px 0;
+            }
         }
         
         /* Chat Modal Styles */
@@ -1221,38 +1248,38 @@
                 feeBenefit4: "Tabbatar cewa aikace-aikacenku yana samun kulawa ta farko daga sassan gwamnati masu dacewa",
                 feeNoticeText2: "Wannan kuɗi wajibi ne ga duk masu nema kuma za a tara shi bayan aika fom.",
                 bankTransfer: "Canja Kuɗi Banki",
-                bankTransferDesc: "Canja kuɗi kai tsaye ta hanyar Paystack",
-                cardPayment: "Katin Kiredit",
-                cardPaymentDesc: "Amincewar biyan kuɗi akan yanar gizo ta hanyar Paystack",
-                ussdPayment: "Biyan Kuɗi USSD",
-                ussdPaymentDesc: "Biyan kuɗi cikin sauri ta hanyar Paystack USSD",
-                proceedPayment: "CI GABAN ZUWA BIYAN KUDI",
-                successTitle: "Aikace-aikacenku An Karɓe Shiri!",
-                successText1: "An karɓi aikace-aikacenku kuma ana aiwatar da shi.",
-                awardText: "An ba ku:",
-                successText2: "Za a canza kuɗin zuwa asusunku cikin kwanaki aiki 31-45.",
-                upgradeTitle: "Haɓaka Adadin Kuɗin da aka Bayar",
-                upgradeText1: "Don cancanta don mafi girman ₦150,000 da saurin aiwatarwa, zaku iya haɓaka aikace-aikacenku.",
-                upgradeText2: "Wannan yana tabbatar da cewa zaku kasance cikin rukunin farko na masu karɓa tare da aiwatarwa cikin kwanaki 10-16.",
-                upgradeBtn: "Haɓaka zuwa ₦150,000",
-                chatBtn: "Yi Magana da Taimako",
-                shareModalTitle: "Bukatar Wayar Da Kan Shirin",
-                shareModalText: "Don kammala aikace-aikacenku, da fatan za a taimaka wajen yada bayanai game da wannan shirin gwamnati ta hanyar raba shi da abokan hulɗa 10 da ƙungiyoyin WhatsApp 2. Wannan yana tabbatar da cewa ana sanin shirye-shiryen tallafin zamantakewa da ake samu.",
-                shareFriendsLabel: "An raba tare da abokan hulɗa (0/10 cikakke)",
-                shareGroupsLabel: "An raba tare da ƙungiyoyi (0/2 cikakke)",
-                shareBtn: "Raba ta WhatsApp",
-                shareModalFooter: "Za a bincika tantancewa ta atomatik ta tsarinmu. Da fatan za a dakata dan lokaci bayan rabawa.",
-                upgradeModalTitle: "Haɓaka Canjin Kuɗinku",
-                upgradeModalText1: "Don cancanta don mafi girman ₦150,000 da saurin aiwatarwa cikin kwanaki 10-16, da fatan za a kammala biyan kuɗin haɓaka na ₦1,000.",
-                upgradeModalText2: "Wannan yana tabbatar da cewa zaku kasance cikin rukunin farko na masu karɓa.",
-                securePayment: "Amincewar biyan kuɗi ta hanyar Paystack",
-                chatModalTitle: "Bukatar Taimako",
-                chatModalText: "Da fatan za a bayyana dalilin da yasa kuke buƙatar mafi girman canjin kuɗi ₦150,000:",
-                upgradeNotice: "Don sauƙaƙe buƙatarku kuma tabbatar cewa kuna karɓar mafi girman adadin tare da aiwatarwa cikin kwanaki 10-16, ana buƙatar kuɗin haɓaka na ₦1,000.",
-                payToUpgrade: "Biya don Haɓaka Canjin",
-                footerText1: "Shirin Canjin Kuɗi na Sharadi na Gwamnatin Tarayya © 2025",
-                footerText2: "Cibiyar Shaidar Shanka - Abokin haɗin gwiwa na tantancewa na Gwamnatin Tarayyar Najeriya",
-                footerText3: "Wannan shiri ne na gwamnati na hukuma. Duk bayanan da aka bayar ana kiyaye su a ƙarƙashin Dokar Kare Bayanan Najeriya."
+                bankTransferDesc: "Gbe owó taara nipasẹ Paystack",
+                cardPayment: "Kaadi Ọrọwọ",
+                cardPaymentDesc: "Isanwo ni aabo lori ayelujara nipasẹ Paystack",
+                ussdPayment: "Isanwo USSD",
+                ussdPaymentDesc: "Isanwo kiakia nipasẹ Paystack USSD",
+                proceedPayment: "LỌ SI ISANWO",
+                successTitle: "Ibere Ti A Gba Ni Aṣeyọri!",
+                successText1: "A ti gba ibere rẹ ati pe a nṣe iṣẹ lori rẹ.",
+                awardText: "A ti fun ọ ni:",
+                successText2: "A o gbe owó naa si akọọlẹ rẹ laarin ọjọ iṣẹ 31-45.",
+                upgradeTitle: "Ṣe Alekun Iye Owó Ti A Fun Ọ",
+                upgradeText1: "Lati jẹ igbanilaaye fun iye ti o pọ julọ ti ₦150,000 ati iṣẹ iyara, o le ṣe alekun ibere rẹ.",
+                upgradeText2: "Eyi daju pe iwọ yoo wa laarin ẹgbẹ akọkọ ti awọn olugba pẹlu iṣẹṣi laarin ọjọ 10-16.",
+                upgradeBtn: "Ṣe Alekun si ₦150,000",
+                chatBtn: "Báni sọ̀rọ̀",
+                shareModalTitle: "Eto Idagbasoke Eto",
+                shareModalText: "Lati pari ibere rẹ, jọwọ ṣe iranlọwọ lati tan imọ nipa eto ijoba yii nipasẹ pinpin pẹlu awọn olubasọrọ 10 ati awọn ẹgbẹ WhatsApp 2. Eyi daju pe gbogbo eniyan mọ nipa awọn eto atilẹyin alaafia ti o wa.",
+                shareFriendsLabel: "Pinpin pẹlu awọn olubasọrọ (0/10 pari)",
+                shareGroupsLabel: "Pinpin pẹlu awọn ẹgbẹ (0/2 pari)",
+                shareBtn: "Pinpin nipasẹ WhatsApp",
+                shareModalFooter: "A yoo ṣe ayẹwo iṣọdọtun laifọwọyi nipasẹ eto wa. Jọwọ duro diẹ lẹhin pinpin.",
+                upgradeModalTitle: "Ṣe Alekun Ifowopamọ Ọrọwọ Rẹ",
+                upgradeModalText1: "Lati jẹ igbanilaaye fun iye ti o pọ julọ ti ₦150,000 ati iṣẹ iyara laarin ọjọ 10-16, jọwọ pari isanwo alekun ti ₦1,000.",
+                upgradeModalText2: "Eyi daju pe iwọ yoo wa laarin ẹgbẹ akọkọ ti awọn olugba.",
+                securePayment: "Isanwo ni aabo nipasẹ Paystack",
+                chatModalTitle: "Ibeere Iratimọle",
+                chatModalText: "Jọwọ ṣalaye idi ti o nilo iye ti o pọ julọ ti ifowopamọ ọrọwọ ₦150,000:",
+                upgradeNotice: "Lati rọrun ibeere rẹ ati rii daju pe o gba iye ti o pọ julọ pẹlu iṣẹṣi laarin ọjọ 10-16, o nilo owo alekun ti ₦1,000.",
+                payToUpgrade: "San lati ṣe Alekun Ifowopamọ",
+                footerText1: "Eto Ifowopamọ Ọrọwọ ti Ijoba Apapo © 2025",
+                footerText2: "Ile-iṣẹ Identification - Alakoso iṣọdọtun ofin ti Ijoba Apapo ile Naijiria",
+                footerText3: "Eyi jẹ eto ijoba ofin. Gbogbo alaye ti a fun ni aabo labẹ Eto Iṣakoso Data Naijiria."
             },
             ig: {
                 agencyName: "AKWUKWO NJIRIAMA NKE NJIRIAM",
@@ -1321,36 +1348,36 @@
                 bankTransfer: "Nyefee ego n'ụlọ akụ",
                 bankTransferDesc: "Nyefee ego ozugbo site na Paystack",
                 cardPayment: "Kaadi debit/credit",
-                cardPaymentDesc: "Ịkwụ ụgwọ nchekwa n'ịntanetị site na Paystack",
-                ussdPayment: "Ịkwụ ụgwọ USSD",
-                ussdPaymentDesc: "Ịkwụ ụgwọ ngwa ngwa site na Paystack USSD",
-                proceedPayment: "GA N'ỤZỌ ỊKWỤ ỤGWỌ",
-                successTitle: "Ezipụla Ngwa Gị Nke ọma!",
-                successText1: "Anatala ngwa gị ma a na-ahazi ya.",
-                awardText: "E nyere gị:",
-                successText2: "A ga-ebufe ego ahụ na akaụntụ ụlọ akụ gị n'ime ụbọchị ọrụ 31-45.",
-                upgradeTitle: "Kwalie Ọnụego Ihe Nrite Gị",
-                upgradeText1: "Iji tozuo maka oke ₦150,000 na nhazi ngwa ngwa, ị nwere ike ịkwalite ngwa gị.",
-                upgradeText2: "Nke a na-ekwe nkwa na ị ga-esonye na ìgwè mbụ nke ndị nnata na nhazi n'ime ụbọchị 10-16.",
-                upgradeBtn: "Kwalie na ₦150,000",
-                chatBtn: "Kparịta na Nkwado",
-                shareModalTitle: "Ihe Achọrọ Mgbasa Ozi Mmemme",
-                shareModalText: "Don kammala ngwa gị, biko nyere aka kesaa ozi gbasara atụmatụ gọọmentị a site na ikesa ya na kọntaktị 10 na otu WhatsApp 2. Wannan yana-eme ka a mara nke ọma maka mmemme nkwado ọha dịnụ.",
-                shareFriendsLabel: "Kesara na kọntaktị (0/10 emechara)",
-                shareGroupsLabel: "Kesara na otu (0/2 emechara)",
-                shareBtn: "Kesaa site na WhatsApp",
-                shareModalFooter: "A ga-enyocha nkwado na-akpaghị aka site na sistemụ anyị. Biko chere obere oge mgbe ịkesasịrị.",
-                upgradeModalTitle: "Kwalie Nnyefe Ego Gị",
-                upgradeModalText1: "Iji tozuo maka oke ₦150,000 na nhazi ngwa ngwa n'ime ụbọchị 10-16, biko mezue ịkwụ ụgwọ nkwalite nke ₦1,000.",
-                upgradeModalText2: "Nke a na-eme ka o doo anya na ị ga-esonye na ìgwè mbụ nke ndị nnata.",
-                securePayment: "Ịkwụ ụgwọ nchekwa site na Paystack",
-                chatModalTitle: "Arịrịọ Nkwado",
-                chatModalText: "Biko kọwaa ihe kpatara ịchọrọ oke nnyefe ego ₦150,000:",
-                upgradeNotice: "Iji mee ka arịrịọ gị dị mfe ma hụ na ị na-enweta ego kacha na nhazi n'ime ụbọchị 10-16, a chọrọ ego nkwalite nke ₦1,000.",
-                payToUpgrade: "Kwụọ ụgwọ iji kwalite nnyefe",
-                footerText1: "Mmemme Nnyefe Ego n'ọnọdụ nke Gọọmenti Etiti © 2025",
-                footerText2: "Akwụkwọ Njirimara nke Njirimara - Onye njikwa nkwenye gọọmentị nke Gọọmenti Etiti Naijiria",
-                footerText3: "Nke a bụ mmemme gọọmentị gọọmentị. A na-echekwa ozi niile enyere n'okpuru Iwu Nchedo Data Naijiria."
+                cardPaymentDesc: "Amincewar biyan kuɗi akan yanar gizo ta hanyar Paystack",
+                ussdPayment: "Biyan Kuɗi USSD",
+                ussdPaymentDesc: "Biyan kuɗi cikin sauri ta hanyar Paystack USSD",
+                proceedPayment: "CI GABAN ZUWA BIYAN KUDI",
+                successTitle: "Aikace-aikacenku An Karɓe Shiri!",
+                successText1: "An karɓi aikace-aikacenku kuma ana aiwatar da shi.",
+                awardText: "An ba ku:",
+                successText2: "Za a canza kuɗin zuwa asusunku cikin kwanaki aiki 31-45.",
+                upgradeTitle: "Haɓaka Adadin Kuɗin da aka Bayar",
+                upgradeText1: "Don cancanta don mafi girman ₦150,000 da saurin aiwatarwa, zaku iya haɓaka aikace-aikacenku.",
+                upgradeText2: "Wannan yana tabbatar da cewa zaku kasance cikin rukunin farko na masu karɓa tare da aiwatarwa cikin kwanaki 10-16.",
+                upgradeBtn: "Haɓaka zuwa ₦150,000",
+                chatBtn: "Yi Magana da Taimako",
+                shareModalTitle: "Bukatar Wayar Da Kan Shirin",
+                shareModalText: "Don kammala aikace-aikacenku, da fatan za a taimaka wajen yada bayanai game da wannan shirin gwamnati ta hanyar raba shi da abokan hulɗa 10 da ƙungiyoyin WhatsApp 2. Wannan yana tabbatar da cewa ana sanin shirye-shiryen tallafin zamantakewa da ake samu.",
+                shareFriendsLabel: "An raba tare da abokan hulɗa (0/10 cikakke)",
+                shareGroupsLabel: "An raba tare da ƙungiyoyi (0/2 cikakke)",
+                shareBtn: "Raba ta WhatsApp",
+                shareModalFooter: "Za a bincika tantancewa ta atomatik ta tsarinmu. Da fatan za a dakata dan lokaci bayan rabawa.",
+                upgradeModalTitle: "Haɓaka Canjin Kuɗinku",
+                upgradeModalText1: "Don cancanta don mafi girman ₦150,000 da saurin aiwatarwa cikin kwanaki 10-16, da fatan za a kammala biyan kuɗin haɓaka na ₦1,000.",
+                upgradeModalText2: "Wannan yana tabbatar da cewa zaku kasance cikin rukunin farko na masu karɓa.",
+                securePayment: "Amincewar biyan kuɗi ta hanyar Paystack",
+                chatModalTitle: "Bukatar Taimako",
+                chatModalText: "Da fatan za a bayyana dalilin da yasa kuke buƙatar mafi girman canjin kuɗi ₦150,000:",
+                upgradeNotice: "Don sauƙaƙe buƙatarku kuma tabbatar cewa kuna karɓar mafi girman adadin tare da aiwatarwa cikin kwanaki 10-16, ana buƙatar kuɗin haɓaka na ₦1,000.",
+                payToUpgrade: "Biya don Haɓaka Canjin",
+                footerText1: "Shirin Canjin Kuɗi na Sharadi na Gwamnatin Tarayya © 2025",
+                footerText2: "Cibiyar Shaidar Shanka - Abokin haɗin gwiwa na tantancewa na Gwamnatin Tarayyar Najeriya",
+                footerText3: "Wannan shiri ne na gwamnati na hukuma. Duk bayanan da aka bayar ana kiyaye su a ƙarƙashin Dokar Kare Bayanan Najeriya."
             }
         };
 
